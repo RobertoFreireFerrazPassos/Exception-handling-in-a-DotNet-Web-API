@@ -19,12 +19,12 @@ try
 }
 catch (ArgumentNullException e)
 {
-    //  Block of code to handle errors
+    //  Block of code to handle exception
     result += "ArgumentNullException";
 }
 catch (Exception e)
 {
-    //  Block of code to handle errors
+    //  Block of code to handle exception
     result += "Catch";
 }
 finally
@@ -36,10 +36,48 @@ finally
 return Ok(result);
 ```
 
+## throw; vs throw ex;
+
+The **throw;** statement is used to rethrow the current exception while preserving the original stack trace. This is important because the stack trace provides valuable information about where the exception originally occurred, making it easier to debug and diagnose issues
+
+Scenario:
+
+Consider a situation where a method deep in the call stack throws an exception, and you catch it in a higher-level method to perform some logging or cleanup
+
+```cs
+try
+{
+  // some code
+}
+catch
+{
+  throw;
+}
+```
+
+On the other hand, **throw ex;** resets the stack trace to the point where the throw ex statement is executed. This means that the original stack trace information is lost, which can obscure the source of the error and make debugging more difficult.
+
+Resets Stack Trace: The stack trace is reset to the current method, losing the original context
+
+```cs
+try
+{
+  // some code
+}
+catch
+{
+  throw ex;
+}
+```
+
+## Custom middleware to catch unhandled exceptions
+
+https://localhost:7052/api/Tasks/tasks/weqw
+
 ## TO DO:
 
 - ~~Create a basic WebApi with controllers, service and database~~
-- Implement Basic Try-Catch Blocks (Syntax and usage in controller actions, Catching specific exception types (e.g., ArgumentNullException, SqlException) and Re-throwing exceptions (throw; vs throw ex;))
+- ~~Implement Basic Try-Catch Blocks (Syntax and usage in controller actions, Catching specific exception types (e.g., ArgumentNullException, SqlException) and Re-throwing exceptions (throw; vs throw ex;))~~
 - Custom middleware to catch unhandled exceptions. middleware (500 for unhandled server errors, 400 for bad request, 401/403 for unauthorized/forbidden, 404 for not found). Using ProblemDetails for consistent error responses. https://www.treinaweb.com.br/blog/tratando-erros-em-uma-api-asp-net-core-com-middleware
 - Not found in database. Null instead of exception and Handle issue in upper logic.
 - Custom Exception Types. Creating and using custom exception classes (e.g., NotFoundException). Mapping custom exceptions to appropriate HTTP status codes
