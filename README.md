@@ -68,15 +68,32 @@ catch
 }
 ```
 
+### Best Practices
+
+- Use **throw;** instead of "throw ex;" in most situations to rethrow the current exception while preserving the original stack trace
+
 ## Custom Exception Types
 
-Custom Exception Types. Creating and using custom exception classes (e.g., NotFoundException). Mapping custom exceptions to appropriate HTTP status codes
+- .NET provides a hierarchy of exception classes ultimately derived from the Exception base class. For example, ArgumentException. However, if none of the predefined exceptions meet your needs, you can create your own exception class by deriving from the Exception class.
+- An inner exception describes the error that caused the current exception
+
+### Best Practices
+
+- End exception class names with Exception and derive it from the Exception class
+- Include three constructors. the parameterless constructor, a constructor that takes a string message, and a constructor that takes a string message and an inner exception.
+- Provide additional properties only when there's a programmatic scenario where the additional information is useful. For example, the FileNotFoundException provides the FileName property.
 
 ## Custom middleware to catch unhandled exceptions
 
 https://localhost:7052/api/Tasks/tasks/weqw
 
 (500 for unhandled server errors, 400 for bad request, 401/403 for unauthorized/forbidden, 404 for not found). Using ProblemDetails for consistent error responses. https://www.treinaweb.com.br/blog/tratando-erros-em-uma-api-asp-net-core-com-middleware
+
+### Best Practices
+
+- Handle Exceptions globally via Custom middleware to avoid duplication of try..catch blocks in all controller actions.
+- Map Exceptions to the appropriate HTTP status codes
+- Return meaningful and secure error messages to clients
 
 ## Handling exceptions with logs
 
@@ -100,10 +117,6 @@ Result Pattern. https://antondevtips.com/blog/how-to-replace-exceptions-with-res
 
 ## Best Practices
 
-- Use **throw;** instead of "throw ex;" in most situations to rethrow the current exception while preserving the original stack trace
-- Handle Exceptions globally via Custom middleware to avoid duplication of try..catch blocks in all controller actions.
-
 Look at Microsoft best practices for exception. https://learn.microsoft.com/en-us/dotnet/standard/exceptions/best-practices-for-exceptions
-Best Practices & Anti-patterns. Avoid empty catch blocks. Don't expose internal exception messages. Return meaningful and secure error messages to clients
 
 
