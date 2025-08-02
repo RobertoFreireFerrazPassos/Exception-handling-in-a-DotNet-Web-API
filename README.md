@@ -2,8 +2,7 @@
 
 ## Throw exception
 
-You can throw a new Exception in the code.
-When an exception is thrown, it immediately interrupts the normal flow of control in the program.
+You can throw an exception in the code. When an exception is thrown, it immediately interrupts the normal flow of control in the program.
 
 ```cs
 throw new ArgumentNullException("someMethod received a null argument!");
@@ -12,9 +11,8 @@ throw new ArgumentNullException("someMethod received a null argument!");
 ## Best Practices
 
 - Don't raise exceptions from unexpected places. Some methods, such as Equals, GetHashCode, and ToString methods, static constructors, and equality operators, shouldn't throw exceptions
-- Throw argument validation exceptions synchronously. In task-returning methods, you should validate arguments and throw any corresponding exceptions, such as ArgumentException and ArgumentNullException, before entering the asynchronous part of the method. Exceptions that are thrown in the asynchronous part of the method are stored in the returned task and don't emerge until, for example, the task is awaited. For more information, see Exceptions in task-returning methods.
 - Don't use exceptions to change the flow of a program as part of ordinary execution. Use exceptions to report and handle error conditions.
-- Exceptions shouldn't be returned as a return value or parameter instead of being thrown.
+- Don't return exceptions. Thrown exception
 
 ## When to throw an exception
 
@@ -56,7 +54,7 @@ catch
 
 - Use **throw;** instead of "throw ex;" in most situations to rethrow the current exception while preserving the original stack trace
 - Don't raise exceptions in finally clauses
-- When a method deep in the call stack throws an exception, catch it in a higher-level method to perform some logging or cleanup.
+- When your code can't recover from an exception, don't catch that exception. Enable methods further up the call stack to recover if possible.
 
 ## Basic Try-Catch-Finally
 
@@ -96,7 +94,30 @@ return Ok(result);
 
 - When catching exceptions in C#, it’s important to catch more specific exceptions first and then catch more generic exceptions like Exception last. This ensures that specific issues are handled properly before falling back to a general catch-all block.
 - Each catch block can handle a specific error type with the appropriate logic
--  Don’t catch exceptions just to suppress them unless there’s a very specific reason. Always handle exceptions properly by logging them or taking necessary corrective actions.
+- Don’t catch exceptions just to suppress them unless there’s a very specific reason. Always handle exceptions properly by logging them or taking necessary corrective actions.
+
+## Async
+
+- Throw argument validation exceptions synchronously. In task-returning methods, you should validate arguments and throw any corresponding exceptions, such as ArgumentException and ArgumentNullException, before entering the asynchronous part of the method. Exceptions that are thrown in the asynchronous part of the method are stored in the returned task and don't emerge until, for example, the task is awaited.
+- It's better to catch OperationCanceledException instead of TaskCanceledException, which derives from OperationCanceledException, when you call an asynchronous method. Many asynchronous methods throw an OperationCanceledException exception if cancellation is requested. These exceptions enable execution to be efficiently halted and the callstack to be unwound once a cancellation request is observed.
+
+## Clean up resources
+
+Clean up resources that are allocated with either using statements or finally blocks:
+- Prefer using statements to automatically clean up resources when exceptions are thrown. 
+- Use finally blocks to clean up resources that don't implement IDisposable. Code in a finally clause is almost always executed even when exceptions are thrown.
+
+## Handle common conditions to avoid exceptions
+
+- For conditions that are likely to occur but might trigger an exception, consider handling them in a way that avoids the exception.
+- Use exception handling if the event doesn't occur often, that is, if the event is truly exceptional and indicates an error
+- Call Try* methods to avoid exceptions. Use TryParse instead of Parse.
+
+## Restore state when methods don't complete due to exceptions
+
+- Callers should be able to assume that there are no side effects when an exception is thrown from a method. For example, if you have code that transfers money by withdrawing from one account and depositing in another account, and an exception is thrown while executing the deposit, you don't want the withdrawal to remain in effect.
+- The preceding method doesn't directly throw any exceptions. However, you must write the method so that the withdrawal is reversed if the deposit operation fails. One way to handle this situation is to catch any exceptions thrown by the deposit transaction and roll back the withdrawal.
+
 
 ## Custom Exception Types
 
@@ -112,8 +133,6 @@ return Ok(result);
 - Introduce a new exception class only when a predefined one doesn't apply.
 
 ## Custom middleware to catch unhandled exceptions
-
-https://localhost:7052/api/Tasks/tasks/weqw
 
 (500 for unhandled server errors, 400 for bad request, 401/403 for unauthorized/forbidden, 404 for not found). Using ProblemDetails for consistent error responses. https://www.treinaweb.com.br/blog/tratando-erros-em-uma-api-asp-net-core-com-middleware
 
