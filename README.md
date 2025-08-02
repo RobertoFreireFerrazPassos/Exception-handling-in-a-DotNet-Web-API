@@ -1,6 +1,44 @@
 # Exception-handling-in-a-DotNet-Web-API
 
-- Create a basic WebApi with controllers, service and database
+
+## Basic Try-Catch-Finally
+
+The response in this case is: ArgumentNullExceptionFinally:
+
+- Result += "Okay"; is not executed
+- Catch ArgumentNullException, but not Exception
+- result += "Finally"; is always executed UNLESS a return statement breaks the flow
+
+```cs
+var result = string.Empty;
+try
+{
+    //  Block of code to try
+    throw new ArgumentNullException("test");
+    result += "Okay";
+}
+catch (ArgumentNullException e)
+{
+    //  Block of code to handle errors
+    result += "ArgumentNullException";
+}
+catch (Exception e)
+{
+    //  Block of code to handle errors
+    result += "Catch";
+}
+finally
+{
+    // The finally statement is always executed UNLESS a return statement breaks the flow
+    result += "Finally";
+}
+
+return Ok(result);
+```
+
+## TO DO:
+
+- ~~Create a basic WebApi with controllers, service and database~~
 - Implement Basic Try-Catch Blocks (Syntax and usage in controller actions, Catching specific exception types (e.g., ArgumentNullException, SqlException) and Re-throwing exceptions (throw; vs throw ex;))
 - Custom middleware to catch unhandled exceptions. middleware (500 for unhandled server errors, 400 for bad request, 401/403 for unauthorized/forbidden, 404 for not found). Using ProblemDetails for consistent error responses. https://www.treinaweb.com.br/blog/tratando-erros-em-uma-api-asp-net-core-com-middleware
 - Not found in database. Null instead of exception and Handle issue in upper logic.
