@@ -145,11 +145,9 @@ Clean up resources that are allocated with either using statements or finally bl
 
 ## Custom middleware to catch unhandled exceptions
 
-(500 for unhandled server errors, 400 for bad request, 401/403 for unauthorized/forbidden, 404 for not found). Using ProblemDetails for consistent error responses. https://www.treinaweb.com.br/blog/tratando-erros-em-uma-api-asp-net-core-com-middleware
-
-### Best Practices
-
 - Handle Exceptions globally via Custom middleware to avoid duplication of try..catch blocks in all controller actions.
+- Add a custom middleware to catch unhandled exceptions like the ErrorHandlerMiddleware.
+- Create a error response class for consistent error responses
 - Map Exceptions to the appropriate HTTP status codes
 - Return meaningful and secure error messages to clients
 

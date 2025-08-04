@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using TasksAPI.DataContracts.Response;
 using TasksAPI.Enum;
 using TasksAPI.Repository;
 
@@ -11,12 +12,14 @@ public class TasksController(ITasksRepository tasksRepository) : Controller
     [HttpGet("tasks/{type}")]
     public async Task<IActionResult> GetTasks(string type)
     {
-        try
+        System.Enum.TryParse(typeof(TaskTypeEnum), type, ignoreCase: true, out var taskType);
+
+        if (taskType is null)
         {
-            return Ok(tasksRepository.GetTasks((TaskTypeEnum)System.Enum.Parse(typeof(TaskTypeEnum), type, ignoreCase: true)));
+            throw new ArgumentException($"Invalid task type '{type}'");
         }
-        catch (Exception ex) {
-            return StatusCode(500);
-        }
+
+        var tasks = tasksRepository.GetTasks((TaskTypeEnum) taskType);
+        return Ok(new TaskResponse() { Tasks = tasks });
     }
 }
