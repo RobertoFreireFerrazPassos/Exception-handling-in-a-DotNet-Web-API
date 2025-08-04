@@ -153,7 +153,7 @@ Clean up resources that are allocated with either using statements or finally bl
 
 ## Handling exceptions with logs
 
-Log issue. Serilog. Logging in middleware and filters
+- Log issues in middleware
 
 ## Retry Logic and Transient Fault Handling
 
