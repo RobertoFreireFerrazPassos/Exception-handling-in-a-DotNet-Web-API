@@ -8,6 +8,17 @@ You can throw an exception in the code. When an exception is thrown, it immediat
 throw new ArgumentNullException("someMethod received a null argument!");
 ```
 
+## Stack Trace
+
+The stack trace begins at the statement where the exception is thrown and ends at the catch statement that catches the exception.
+
+```
+at TasksAPI.Repository.TasksRepository.GetTasks(TaskTypeEnum type) in ...\TasksAPI\Repository\TasksRepository.cs:line 20
+at TasksAPI.Controllers.TasksController.<GetTasks>d__2.MoveNext() in ...\TasksAPI\Controllers\TasksController.cs:line 16
+```
+
+![alt text](img/stacktrace.png)
+
 ## Best Practices
 
 - Don't raise exceptions from unexpected places. Some methods, such as Equals, GetHashCode, and ToString methods, static constructors, and equality operators, shouldn't throw exceptions
