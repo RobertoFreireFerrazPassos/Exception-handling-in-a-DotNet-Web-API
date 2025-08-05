@@ -7,4 +7,6 @@ namespace TasksAPI.Services;
 public interface ITasksService
 {
     Result<List<TaskDto>> GetTasks(TaskTypeEnum type);
+
+    Result<TaskDto> GetTask(int id);
 }

@@ -23,6 +23,21 @@ public class TasksController(ITasksService tasksService) : Controller
 
         return taskResponse.IsSuccess ? 
             Ok(new SuccessfulResponse<List<TaskDto>>((int)HttpStatusCode.OK, taskResponse.Value!)) : 
-            Conflict(new ErrorResponse((int)HttpStatusCode.Conflict, taskResponse.Error!));
+            BadRequest(new ErrorResponse((int)HttpStatusCode.BadRequest, taskResponse.Error!));
+    }
+
+    [HttpGet("task/{id}")]
+    public async Task<IActionResult> GetTask(int id)
+    {
+        if (id <= 0)
+        {
+            throw new ArgumentException($"Invalid id '{id}'");
+        }
+
+        var taskResponse = tasksService.GetTask(id);
+
+        return taskResponse.IsSuccess ?
+            Ok(new SuccessfulResponse<TaskDto>((int)HttpStatusCode.OK, taskResponse.Value!)) :
+            NotFound(new ErrorResponse((int)HttpStatusCode.NotFound, taskResponse.Error!));
     }
 }

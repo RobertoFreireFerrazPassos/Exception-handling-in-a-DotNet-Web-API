@@ -9,11 +9,11 @@ public class TasksService(ITasksRepository tasksRepository) : ITasksService
 {
     public Result<List<TaskDto>> GetTasks(TaskTypeEnum type)
     {
-        if (TaskTypeEnum.Generic == type)
-        {
-            return Result<List<TaskDto>>.Failure($"Generic type cannot be selected");
-        }
-
         return tasksRepository.GetTasks(type);
+    }
+
+    public Result<TaskDto> GetTask(int id)
+    {
+        return tasksRepository.GetTask(id);
     }
 }

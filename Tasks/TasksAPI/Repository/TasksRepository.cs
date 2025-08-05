@@ -16,6 +16,18 @@ public class TasksRepository : ITasksRepository
         new TaskDto { Id = 5, Name = "Default Task 2", Type = TaskTypeEnum.Default }
     };
 
+    public Result<TaskDto> GetTask(int id)
+    {
+        var task = _tasks.FirstOrDefault(t => t.Id == id);
+
+        if (task is null)
+        {
+            return Result<TaskDto>.Failure($"Task with id '{id}' not found");
+        }
+
+        return Result<TaskDto>.Success(task);
+    }
+
     public Result<List<TaskDto>> GetTasks(TaskTypeEnum type)
     {
         var tasks = _tasks.Where(t => t.Type == type).ToList();
