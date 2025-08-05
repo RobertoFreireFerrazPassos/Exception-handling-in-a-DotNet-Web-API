@@ -101,6 +101,26 @@ finally
 
 return Ok(result);
 ```
+
+### Finally Blocks
+
+A finally block enables you to clean up actions that are performed in a try block
+
+```cs
+FileStream? file = null;
+FileInfo fileinfo = new System.IO.FileInfo("./file.txt");
+try
+{
+    file = fileinfo.OpenWrite();
+    file.WriteByte(0xF);
+}
+finally
+{
+    // Check for null because OpenWrite might have failed.
+    file?.Close();
+}
+```
+
 ### Best Practices
 
 - When catching exceptions in C#, it’s important to catch more specific exceptions first and then catch more generic exceptions like Exception last. This ensures that specific issues are handled properly before falling back to a general catch-all block.
