@@ -1,5 +1,51 @@
 # Exception-handling-in-a-DotNet-Web-API
 
+## TasksAPI example
+
+### INVALID -> GET https://localhost:7052/api/Tasks/task/0
+
+- Throw new ArgumentException if id is invalid
+- ErrorHandlerMiddleware will log stack trace exception and error message (to debug later) and return error response
+
+```json
+400
+{
+  "Error": "Invalid id '0'",
+  "StatusCode": 400
+}
+```
+
+### VALID -> GET https://localhost:7052/api/Tasks/task/1
+
+_ Task found in database
+- Controller will return Ok with SuccessfulResponse with data
+
+```json
+200
+{
+  "data": {
+    "id": 1,
+    "name": "Task 1",
+    "type": 2
+  },
+  "statusCode": 200
+}
+```
+
+## NOT FOUND -> GET https://localhost:7052/api/Tasks/task/123
+
+- Task not found in database (Not an exception)
+- Repository will return Result<TaskDto>.Failure($"Task with id '{id}' not found");
+- Controller will return NotFound with error message
+
+```json
+404
+{
+  "error": "Task with id '123' not found",
+  "statusCode": 404
+}
+```
+
 ## Throw exception
 
 You can throw an exception in the code. When an exception is thrown, it immediately interrupts the normal flow of control in the program.
