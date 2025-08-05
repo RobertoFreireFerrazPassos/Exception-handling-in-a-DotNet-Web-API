@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Net;
 using TasksAPI.DataContracts.Response;
 
@@ -40,6 +41,12 @@ public class ErrorHandlerMiddleware
 
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)errorResponse.StatusCode;
-        await context.Response.WriteAsync(JsonConvert.SerializeObject(errorResponse));
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(errorResponse, new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                }
+            }));
     }
 }

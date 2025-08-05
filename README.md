@@ -10,8 +10,8 @@
 ```json
 400
 {
-  "Error": "Invalid id '0'",
-  "StatusCode": 400
+  "error": "Invalid id '0'",
+  "statusCode": 400
 }
 ```
 
@@ -242,7 +242,8 @@ As we previously discussed, exception should be used for exceptional situations.
 
 ## Drawbacks:
 
-- Complexity: What if your flow has multiple issues? Hard to map issue to HttpStatusCode since the flow wasn't interrupted when the failure happened.
+- Response: It is hard to map the Result object to the HttpStatusCode
+- Multiple issues: Since the flow wasn't interrupted when the failure happen, it might have happened multiple issues, which http status code should we return?
 - Verbosity: can introduce more code compared to using exceptions as you need to mark all methods in the stacktrace to return Result Object
 - Not Suitable for All Cases: exceptions are still appropriate for truly exceptional situations that are not expected during normal operation.
 
