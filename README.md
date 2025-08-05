@@ -233,14 +233,14 @@ Note: Transient exceptions are those that when retried could succeed without cha
 
 As we previously discussed, exception should be used for exceptional situations. If we are dealing with APIs, using the result pattern instead of throwing exceptions is indeed a more efficient and recommended approach. This pattern allows for better error handling and avoids the performance costs associated with exceptions.
 
-## Benefits:
+### Benefits:
 
 - Explicit Error Handling: the caller must handle the success and failure cases explicitly. From the method signature, it's obvious that an error may be returned.
 - Improved Performance: reduces the overhead associated with exceptions.
 - Better Testing: simplifies unit testing as it's much easier to mock Result Object than throwing and handling exceptions.
 - Safety: a result object should contain information that can be exposed to the outside world. While you can save all the details using Logger or other tools.
 
-## Drawbacks:
+### Drawbacks:
 
 - Response: It is hard to map the Result object to the HttpStatusCode
 - Multiple issues: Since the flow wasn't interrupted when the failure happen, it might have happened multiple issues, which http status code should we return?
