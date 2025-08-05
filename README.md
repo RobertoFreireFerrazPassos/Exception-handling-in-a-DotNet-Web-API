@@ -2,19 +2,6 @@
 
 ## TasksAPI example
 
-### INVALID -> GET https://localhost:7052/api/Tasks/task/0
-
-- Throw new ArgumentException if id is invalid
-- ErrorHandlerMiddleware will log stack trace exception and error message (to debug later) and return error response
-
-```json
-400
-{
-  "error": "Invalid id '0'",
-  "statusCode": 400
-}
-```
-
 ### VALID -> GET https://localhost:7052/api/Tasks/task/1
 
 _ Task found in database
@@ -32,7 +19,20 @@ _ Task found in database
 }
 ```
 
-## NOT FOUND -> GET https://localhost:7052/api/Tasks/task/123
+### INVALID -> GET https://localhost:7052/api/Tasks/task/0
+
+- Throw new ArgumentException if id is invalid
+- ErrorHandlerMiddleware will log stack trace exception and error message (to debug later) and return error response
+
+```json
+400
+{
+  "error": "Invalid id '0'",
+  "statusCode": 400
+}
+```
+
+### NOT FOUND -> GET https://localhost:7052/api/Tasks/task/123
 
 - Task not found in database (Not an exception)
 - Repository will return Result<TaskDto>.Failure($"Task with id '{id}' not found");
