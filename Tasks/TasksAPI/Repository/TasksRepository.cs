@@ -1,5 +1,6 @@
 ﻿using TasksAPI.Dtos;
 using TasksAPI.Enum;
+using TasksAPI.Model;
 
 namespace TasksAPI.Repository;
 
@@ -15,8 +16,10 @@ public class TasksRepository : ITasksRepository
         new TaskDto { Id = 5, Name = "Default Task 2", Type = TaskTypeEnum.Default }
     };
 
-    public List<TaskDto> GetTasks(TaskTypeEnum type)
+    public Result<List<TaskDto>> GetTasks(TaskTypeEnum type)
     {
-        return _tasks.Where(t => t.Type == type).ToList();
+        var tasks = _tasks.Where(t => t.Type == type).ToList();
+
+        return Result<List<TaskDto>>.Success(tasks);
     }
 }

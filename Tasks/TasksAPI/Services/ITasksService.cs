@@ -2,9 +2,9 @@
 using TasksAPI.Enum;
 using TasksAPI.Model;
 
-namespace TasksAPI.Repository;
+namespace TasksAPI.Services;
 
-public interface ITasksRepository
+public interface ITasksService
 {
     Result<List<TaskDto>> GetTasks(TaskTypeEnum type);
 }

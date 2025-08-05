@@ -19,26 +19,16 @@ public class ErrorHandlerMiddleware
     {
         try
         {
-            await _next(httpContext);
+            await _next(httpContext);            
         }
         catch (ArgumentException ex)
         {
-            var error = new ErrorResponse()
-            {
-                StatusCode = (int) HttpStatusCode.BadRequest,
-                Message = ex.Message,
-            };
-
+            var error = new ErrorResponse((int)HttpStatusCode.BadRequest, ex.Message);
             await HandleErrorAsync(httpContext, error, ex);
         }
         catch (Exception ex)
         {
-            var error = new ErrorResponse()
-            {
-                StatusCode = (int) HttpStatusCode.InternalServerError,
-                Message = "Internal server error",
-            };
-
+            var error = new ErrorResponse((int)HttpStatusCode.InternalServerError, "Internal server error");
             await HandleErrorAsync(httpContext, error, ex);
         }
     }

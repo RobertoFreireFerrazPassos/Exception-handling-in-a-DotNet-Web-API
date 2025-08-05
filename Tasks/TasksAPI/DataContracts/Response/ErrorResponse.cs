@@ -1,8 +1,11 @@
 ﻿namespace TasksAPI.DataContracts.Response;
 
-public class ErrorResponse
+public class ErrorResponse : Response
 {
-    public int StatusCode { get; set; }
+    public string? Error { get; }
 
-    public string Message { get; set; }
+    public ErrorResponse(int statusCode, string error) : base(statusCode)
+    {
+        Error = error;
+    }
 }

@@ -4,6 +4,8 @@
 
 You can throw an exception in the code. When an exception is thrown, it immediately interrupts the normal flow of control in the program.
 
+Remember, exceptions are for exceptional situations. Don't use to control program flow.
+
 ```cs
 throw new ArgumentNullException("someMethod received a null argument!");
 ```
@@ -121,6 +123,12 @@ finally
 }
 ```
 
+### Clean up resources
+
+Clean up resources that are allocated with either using statements or finally blocks:
+- Prefer using statements to automatically clean up resources when exceptions are thrown. 
+- Use finally blocks to clean up resources that don't implement IDisposable. Code in a finally clause is almost always executed even when exceptions are thrown.
+
 ### Best Practices
 
 - When catching exceptions in C#, it’s important to catch more specific exceptions first and then catch more generic exceptions like Exception last. This ensures that specific issues are handled properly before falling back to a general catch-all block.
@@ -132,12 +140,6 @@ finally
 - Throw argument validation exceptions synchronously. In task-returning methods, you should validate arguments and throw any corresponding exceptions, such as ArgumentException and ArgumentNullException, before entering the asynchronous part of the method. Exceptions that are thrown in the asynchronous part of the method are stored in the returned task and don't emerge until, for example, the task is awaited.
 - It's better to catch OperationCanceledException instead of TaskCanceledException, which derives from OperationCanceledException, when you call an asynchronous method. Many asynchronous methods throw an OperationCanceledException exception if cancellation is requested. These exceptions enable execution to be efficiently halted and the callstack to be unwound once a cancellation request is observed.
 
-## Clean up resources
-
-Clean up resources that are allocated with either using statements or finally blocks:
-- Prefer using statements to automatically clean up resources when exceptions are thrown. 
-- Use finally blocks to clean up resources that don't implement IDisposable. Code in a finally clause is almost always executed even when exceptions are thrown.
-
 ## Handle common conditions to avoid exceptions
 
 - For conditions that are likely to occur but might trigger an exception, consider handling them in a way that avoids the exception.
@@ -148,7 +150,6 @@ Clean up resources that are allocated with either using statements or finally bl
 
 - Callers should be able to assume that there are no side effects when an exception is thrown from a method. For example, if you have code that transfers money by withdrawing from one account and depositing in another account, and an exception is thrown while executing the deposit, you don't want the withdrawal to remain in effect.
 - The preceding method doesn't directly throw any exceptions. However, you must write the method so that the withdrawal is reversed if the deposit operation fails. One way to handle this situation is to catch any exceptions thrown by the deposit transaction and roll back the withdrawal.
-
 
 ## Custom Exception Types
 
@@ -177,16 +178,21 @@ Clean up resources that are allocated with either using statements or finally bl
 
 ## Retry Logic and Transient Fault Handling
 
-Retry Logic and Transient Fault Handling. Using Polly for retries, fallbacks, and circuit breakers. Avoiding overuse in non-transient exceptions
+- Retry Logic and Transient Fault Handling
+- Using Polly for retries, fallbacks, and circuit breakers to handle transient exceptions
+
+Note: Transient exceptions are those that when retried could succeed without changing anything.
 
 ## Result Pattern
 
 If we are dealing with APIs, using the result pattern instead of throwing exceptions is indeed a more efficient and recommended approach. This pattern allows for better error handling and avoids the performance costs associated with exceptions.
 
-Result Pattern. https://antondevtips.com/blog/how-to-replace-exceptions-with-result-pattern-in-dotnet?utm_source=linkedin&utm_medium=social&utm_campaign=05-05-2025
+## References:
 
-## Best Practices
+https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/exceptions/creating-and-throwing-exceptions
 
-Look at Microsoft best practices for exception. https://learn.microsoft.com/en-us/dotnet/standard/exceptions/best-practices-for-exceptions
+https://learn.microsoft.com/en-us/dotnet/standard/exceptions/best-practices-for-exceptions
+
+https://antondevtips.com/blog/how-to-replace-exceptions-with-result-pattern-in-dotnet?utm_source=linkedin&utm_medium=social&utm_campaign=05-05-2025
 
 

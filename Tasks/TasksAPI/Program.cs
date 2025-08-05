@@ -1,5 +1,6 @@
 using TasksAPI.Middlewares;
 using TasksAPI.Repository;
+using TasksAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<ITasksRepository, TasksRepository>();
+builder.Services.AddSingleton<ITasksService, TasksService>();
 
 var app = builder.Build();
 
