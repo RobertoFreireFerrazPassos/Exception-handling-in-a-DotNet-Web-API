@@ -4,7 +4,7 @@
 
 ### VALID -> GET https://localhost:7052/api/Tasks/task/1
 
-_ Task found in database
+- Task found in database
 - Controller will return Ok with SuccessfulResponse with data
 
 ```json
