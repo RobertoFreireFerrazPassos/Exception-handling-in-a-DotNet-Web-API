@@ -2,7 +2,7 @@
 
 ## TasksAPI example
 
-### VALID -> GET https://localhost:7052/api/Tasks/task/1
+### VALID -> GET api/Tasks/1
 
 - Task found in database
 - Controller will return Ok with SuccessfulResponse with data
@@ -15,7 +15,8 @@
     "name": "Task 1",
     "type": 2
   },
-  "statusCode": 200
+  "statusCode": 200,
+  "message": ""
 }
 ```
 
@@ -27,8 +28,8 @@
 ```json
 400
 {
-  "error": "Invalid id '0'",
-  "statusCode": 400
+  "statusCode": 400,
+  "message": "Invalid id '0'"
 }
 ```
 
@@ -41,8 +42,8 @@
 ```json
 404
 {
-  "error": "Task with id '123' not found",
-  "statusCode": 404
+  "statusCode": 404,
+  "message": "Task with id '123' not found"
 }
 ```
 

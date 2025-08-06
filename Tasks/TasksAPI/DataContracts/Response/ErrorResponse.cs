@@ -2,10 +2,7 @@
 
 public class ErrorResponse : Response
 {
-    public string? Error { get; }
-
-    public ErrorResponse(int statusCode, string error) : base(statusCode)
+    public ErrorResponse(int statusCode, string error) : base(statusCode, error)
     {
-        Error = error;
     }
 }

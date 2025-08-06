@@ -11,8 +11,8 @@ namespace TasksAPI.Controllers;
 [ApiController]
 public class TasksController(ITasksService tasksService) : Controller
 {
-    [HttpGet("tasks/{type}")]
-    public async Task<IActionResult> GetTasks(int type)
+    [HttpGet]
+    public async Task<IActionResult> GetTasks([FromQuery] int type)
     {
         if (!System.Enum.IsDefined(typeof(TaskTypeEnum), type))
         {
@@ -26,7 +26,7 @@ public class TasksController(ITasksService tasksService) : Controller
             BadRequest(new ErrorResponse((int)HttpStatusCode.BadRequest, taskResponse.Error!));
     }
 
-    [HttpGet("task/{id}")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetTask(int id)
     {
         if (id <= 0)

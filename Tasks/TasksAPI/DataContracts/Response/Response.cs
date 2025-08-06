@@ -4,8 +4,11 @@ public class Response
 {
     public int StatusCode { get; }
 
-    public Response(int statusCode)
+    public string Message { get; }
+
+    public Response(int statusCode, string message)
     {
         StatusCode = statusCode;
+        Message = message;
     }
 }
