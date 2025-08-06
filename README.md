@@ -10,26 +10,22 @@
 ```json
 200
 {
-  "data": {
-    "id": 1,
-    "name": "Task 1",
-    "type": 2
-  },
-  "statusCode": 200,
-  "message": ""
+  "id": 1,
+  "name": "Task 1",
+  "type": 2
 }
 ```
 
 ### INVALID -> GET api/Tasks/0
 
 - Throw new ArgumentException if id is invalid
-- ErrorHandlerMiddleware will log stack trace exception and error message (to debug later) and return error response
+- ErrorHandlerMiddleware will log stack trace exception and error message (to debug later) and return problem Details
 
 ```json
 400
 {
-  "statusCode": 400,
-  "message": "Invalid id '0'"
+  "title": "Invalid id '0'",
+  "status": 400
 }
 ```
 
@@ -42,10 +38,13 @@
 ```json
 404
 {
-  "statusCode": 404,
-  "message": "Task with id '123' not found"
+  "title": "Resource Not Found",
+  "status": 404,
+  "detail": "Task with id '123' not found"
 }
 ```
+
+**NOTE:** Problem Details is a way to carry machine-readable details of errors in a HTTP response to avoid the need to define new error response formats for HTTP APIs.
 
 ## Throw exception
 
@@ -222,6 +221,7 @@ Clean up resources that are allocated with either using statements or finally bl
 
 Note: Transient exceptions are those that when retried could succeed without changing anything.
 
+
 ## Result Pattern
 
 As we previously discussed, exception should be used for exceptional situations. If we are dealing with APIs, using the result pattern instead of throwing exceptions is indeed a more efficient and recommended approach. This pattern allows for better error handling and avoids the performance costs associated with exceptions.
@@ -235,7 +235,6 @@ As we previously discussed, exception should be used for exceptional situations.
 
 ### Drawbacks:
 
-- Response: It is hard to map the Result object to the HttpStatusCode
 - Multiple issues: Since the flow wasn't interrupted when the failure happen, it might have happened multiple issues, which http status code should we return?
 - Verbosity: can introduce more code compared to using exceptions as you need to mark all methods in the stacktrace to return Result Object
 - Not Suitable for All Cases: exceptions are still appropriate for truly exceptional situations that are not expected during normal operation.

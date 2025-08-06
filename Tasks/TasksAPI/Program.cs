@@ -1,6 +1,5 @@
+using TasksAPI.IoC;
 using TasksAPI.Middlewares;
-using TasksAPI.Repository;
-using TasksAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,8 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<ITasksRepository, TasksRepository>();
-builder.Services.AddSingleton<ITasksService, TasksService>();
+builder.Services.RegisterServices();
 
 var app = builder.Build();
 

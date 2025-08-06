@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Net;
-using TasksAPI.DataContracts.Response;
 
 namespace TasksAPI.Middlewares;
 
@@ -24,29 +24,31 @@ public class ErrorHandlerMiddleware
         }
         catch (ArgumentException ex)
         {
-            var error = new ErrorResponse((int)HttpStatusCode.BadRequest, ex.Message);
+            var error = new ProblemDetails
+            {
+                Title = ex.Message,
+                Status = (int)HttpStatusCode.BadRequest,
+            };
             await HandleErrorAsync(httpContext, error, ex);
         }
         catch (Exception ex)
         {
-            var error = new ErrorResponse((int)HttpStatusCode.InternalServerError, "Internal server error");
+            var error = new ProblemDetails
+            {
+                Title = "Internal server error",
+                Status = (int)HttpStatusCode.InternalServerError,
+            };
             await HandleErrorAsync(httpContext, error, ex);
         }
     }
 
-    private async Task HandleErrorAsync(HttpContext context, ErrorResponse errorResponse, Exception exception)
+    private async Task HandleErrorAsync(HttpContext context, ProblemDetails problem, Exception exception)
     {
         _log.LogError($"Error: {exception.Message}");
         _log.LogError($"Stack: {exception.StackTrace}");
 
         context.Response.ContentType = "application/json";
-        context.Response.StatusCode = (int)errorResponse.StatusCode;
-        await context.Response.WriteAsync(JsonConvert.SerializeObject(errorResponse, new JsonSerializerSettings
-            {
-                ContractResolver = new DefaultContractResolver
-                {
-                    NamingStrategy = new CamelCaseNamingStrategy()
-                }
-            }));
+        context.Response.StatusCode = (int)problem.Status;
+        await context.Response.WriteAsJsonAsync(problem);
     }
 }

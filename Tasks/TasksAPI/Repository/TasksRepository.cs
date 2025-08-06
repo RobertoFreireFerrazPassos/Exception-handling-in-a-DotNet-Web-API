@@ -22,7 +22,7 @@ public class TasksRepository : ITasksRepository
 
         if (task is null)
         {
-            return Result<TaskDto>.Failure($"Task with id '{id}' not found");
+            return Result<TaskDto>.Failure($"Task with id '{id}' not found", ErrorTypeEnum.NotFound);
         }
 
         return Result<TaskDto>.Success(task);

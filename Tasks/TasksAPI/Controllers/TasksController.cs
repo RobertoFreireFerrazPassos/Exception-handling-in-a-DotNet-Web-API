@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using TasksAPI.DataContracts.Response;
-using TasksAPI.Dtos;
 using TasksAPI.Enum;
+using TasksAPI.Extensions;
 using TasksAPI.Services;
 
 namespace TasksAPI.Controllers;
@@ -19,11 +17,7 @@ public class TasksController(ITasksService tasksService) : Controller
             throw new ArgumentException($"Invalid task type '{type}'");
         }
 
-        var taskResponse = tasksService.GetTasks((TaskTypeEnum)type);
-
-        return taskResponse.IsSuccess ? 
-            Ok(new SuccessfulResponse<List<TaskDto>>((int)HttpStatusCode.OK, taskResponse.Value!)) : 
-            BadRequest(new ErrorResponse((int)HttpStatusCode.BadRequest, taskResponse.Error!));
+        return tasksService.GetTasks((TaskTypeEnum)type).ToHttpResponse();
     }
 
     [HttpGet("{id}")]
@@ -34,10 +28,6 @@ public class TasksController(ITasksService tasksService) : Controller
             throw new ArgumentException($"Invalid id '{id}'");
         }
 
-        var taskResponse = tasksService.GetTask(id);
-
-        return taskResponse.IsSuccess ?
-            Ok(new SuccessfulResponse<TaskDto>((int)HttpStatusCode.OK, taskResponse.Value!)) :
-            NotFound(new ErrorResponse((int)HttpStatusCode.NotFound, taskResponse.Error!));
+        return tasksService.GetTask(id).ToHttpResponse();
     }
 }
