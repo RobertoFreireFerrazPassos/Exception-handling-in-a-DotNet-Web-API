@@ -24,8 +24,9 @@
 ```json
 400
 {
-  "title": "Invalid id '0'",
-  "status": 400
+  "title": "Bad Request",
+  "status": 400,
+  "detail": "Invalid id '0'"
 }
 ```
 

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Net;
+using TasksAPI.Model;
 
 namespace TasksAPI.Middlewares;
 
@@ -26,8 +27,9 @@ public class ErrorHandlerMiddleware
         {
             var error = new ProblemDetails
             {
-                Title = ex.Message,
+                Title = "Bad Request",
                 Status = (int)HttpStatusCode.BadRequest,
+                Detail = ex.Message
             };
             await HandleErrorAsync(httpContext, error, ex);
         }
@@ -37,6 +39,7 @@ public class ErrorHandlerMiddleware
             {
                 Title = "Internal server error",
                 Status = (int)HttpStatusCode.InternalServerError,
+                Detail = ""
             };
             await HandleErrorAsync(httpContext, error, ex);
         }
