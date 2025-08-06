@@ -20,7 +20,7 @@
 }
 ```
 
-### INVALID -> GET https://localhost:7052/api/Tasks/task/0
+### INVALID -> GET api/Tasks/0
 
 - Throw new ArgumentException if id is invalid
 - ErrorHandlerMiddleware will log stack trace exception and error message (to debug later) and return error response
@@ -33,7 +33,7 @@
 }
 ```
 
-### NOT FOUND -> GET https://localhost:7052/api/Tasks/task/123
+### NOT FOUND -> GET api/Tasks/123
 
 - Task not found in database (Not an exception)
 - Repository will return Result<TaskDto>.Failure($"Task with id '{id}' not found");
