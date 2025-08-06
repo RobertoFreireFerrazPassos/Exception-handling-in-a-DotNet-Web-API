@@ -49,9 +49,9 @@
 
 ## Throw exception
 
-You can throw an exception in the code. When an exception is thrown, it immediately interrupts the normal flow of control in the program.
+When an exception is thrown, it immediately interrupts the normal flow of control in the program.
 
-Remember, exceptions are for exceptional situations. Don't use to control program flow.
+Note: Exceptions are for exceptional situations. Don't use to control program flow.
 
 ```cs
 throw new ArgumentNullException("someMethod received a null argument!");
@@ -60,13 +60,6 @@ throw new ArgumentNullException("someMethod received a null argument!");
 ## Stack Trace
 
 The stack trace begins at the statement where the exception is thrown and ends at the catch statement that catches the exception.
-
-```
-at TasksAPI.Repository.TasksRepository.GetTasks(TaskTypeEnum type) in ...\TasksAPI\Repository\TasksRepository.cs:line 20
-at TasksAPI.Controllers.TasksController.<GetTasks>d__2.MoveNext() in ...\TasksAPI\Controllers\TasksController.cs:line 16
-```
-
-![alt text](img/stacktrace.png)
 
 ## Best Practices
 
@@ -178,9 +171,8 @@ Clean up resources that are allocated with either using statements or finally bl
 
 ### Best Practices
 
-- When catching exceptions in C#, it’s important to catch more specific exceptions first and then catch more generic exceptions like Exception last. This ensures that specific issues are handled properly before falling back to a general catch-all block.
-- Each catch block can handle a specific error type with the appropriate logic
-- Don’t catch exceptions just to suppress them unless there’s a very specific reason. Always handle exceptions properly by logging them or taking necessary corrective actions.
+- When catching exceptions in C#, it’s important to catch more specific exceptions first and then catch more generic exceptions like Exception last. This ensures that specific issues are handled properly before falling back to a general catch-all block and then each catch block can handle a specific error type with the appropriate logic
+- Don’t catch exceptions just to suppress them unless there’s a very specific reason.
 
 ## Async
 
@@ -213,15 +205,15 @@ Clean up resources that are allocated with either using statements or finally bl
 
 ## Custom middleware to catch unhandled exceptions
 
-- Handle Exceptions globally via Custom middleware to avoid duplication of try..catch blocks in all controller actions.
-- Add a custom middleware to catch unhandled exceptions like the ErrorHandlerMiddleware.
+- Handle Exceptions globally via Custom middleware to avoid duplication of try..catch blocks in all controller actions
+- Add a custom middleware to catch unhandled exceptions
 - Create a error response class for consistent error responses
 - Map Exceptions to the appropriate HTTP status codes
 - Return meaningful and secure error messages to clients
 
 ## Handling exceptions with logs
 
-- Log issues in middleware
+- Log exceptions in middleware
 
 ## Retry Logic and Transient Fault Handling
 
