@@ -237,6 +237,7 @@ As we previously discussed, exception should be used for exceptional situations.
 ### Drawbacks:
 
 - Multiple issues: Since the flow wasn't interrupted when the failure happen, it might have happened multiple issues, which http status code should we return?
+- Harder to manage: Since there is no exception that breaks the flow, the developer has to manage the flow returning the issue from inner layers to the controller.
 - Verbosity: can introduce more code compared to using exceptions as you need to mark all methods in the stacktrace to return Result Object
 - Not Suitable for All Cases: exceptions are still appropriate for truly exceptional situations that are not expected during normal operation.
 
